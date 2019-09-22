@@ -1,8 +1,8 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2019-09-01
- * https://github.com/fex-team/kityminder-core
- * GitHub: https://github.com/fex-team/kityminder-core.git 
+ * Kity Minder Core - v1.4.50 - 2019-09-20
+ * https://github.com/CapLee/kityminder-core.git
+ * GitHub: https://github.com/CapLee/kityminder-core.git 
  * Copyright (c) 2019 Baidu FEX; Licensed BSD-3-Clause
  * ====================================================
  */
@@ -4181,20 +4181,40 @@ _p[40] = {
         var Minder = _p.r(19);
         Layout.register("mind", kity.createClass({
             base: Layout,
+            // doLayout: function(node, children) {
+            //     var layout = this;
+            //     var half = Math.ceil(node.children.length / 2);
+            //     var right = [];
+            //     var left = [];
+            //
+            //     children.forEach(function(child) {
+            //         if (child.getIndex() < half) right.push(child);
+            //         else left.push(child);
+            //     });
+            //
+            //     var leftLayout = Minder.getLayoutInstance('left');
+            //     var rightLayout = Minder.getLayoutInstance('right');
+            //
+            //     leftLayout.doLayout(node, left);
+            //     rightLayout.doLayout(node, right);
+            //
+            //     var box = node.getContentBox();
+            //     node.setVertexOut(new kity.Point(box.cx, box.cy));
+            //     node.setLayoutVectorOut(new kity.Vector(0, 0));
+            // },
             doLayout: function(node, children) {
                 var layout = this;
-                var half = Math.ceil(node.children.length / 2);
                 var right = [];
-                var left = [];
-                children.forEach(function(child) {
-                    if (child.getIndex() < half) right.push(child); else left.push(child);
+                var down = [];
+                children.forEach(function(node) {
+                    node.data.nodeType === 1 || 0 === String(node.data.nodeType).indexOf("8") || 9 === node.data.nodeType ? right.push(node) : node.attached && down.push(node);
                 });
-                var leftLayout = Minder.getLayoutInstance("left");
+                var downLayout = Minder.getLayoutInstance("filetree-down");
                 var rightLayout = Minder.getLayoutInstance("right");
-                leftLayout.doLayout(node, left);
+                downLayout.doLayout(node, down);
                 rightLayout.doLayout(node, right);
                 var box = node.getContentBox();
-                node.setVertexOut(new kity.Point(box.cx, box.cy));
+                1 === node.data.nodeType || 9 === node.data.nodeType || 0 === String(node.data.nodeType).indexOf("8") ? "root" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 10)) : "main" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 8)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)), 
                 node.setLayoutVectorOut(new kity.Vector(0, 0));
             },
             getOrderHint: function(node) {
@@ -8848,23 +8868,38 @@ _p[68] = {
 _p[69] = {
     value: function(require, exports, module) {
         var template = _p.r(31);
+        // template.register('default', {
+        //
+        //     getLayout: function(node) {
+        //
+        //         if (node.getData('layout')) return node.getData('layout');
+        //
+        //         var level = node.getLevel();
+        //
+        //         // 根节点
+        //         if (level === 0) {
+        //             return 'mind';
+        //         }
+        //
+        //         // 一级节点
+        //         if (level === 1) {
+        //             return node.getLayoutPointPreview().x > 0 ? 'right': 'left';
+        //         }
+        //
+        //         return node.parent.getLayout();
+        //     },
+        //
+        //     getConnect: function(node) {
+        //         if (node.getLevel() == 1) return 'arc';
+        //         return 'under';
+        //     }
+        // });
         template.register("default", {
             getLayout: function(node) {
-                if (node.getData("layout")) return node.getData("layout");
-                var level = node.getLevel();
-                // 根节点
-                if (level === 0) {
-                    return "mind";
-                }
-                // 一级节点
-                if (level === 1) {
-                    return node.getLayoutPointPreview().x > 0 ? "right" : "left";
-                }
-                return node.parent.getLayout();
+                return "mind";
             },
             getConnect: function(node) {
-                if (node.getLevel() == 1) return "arc";
-                return "under";
+                return node.getLevel(), "poly";
             }
         });
     }
