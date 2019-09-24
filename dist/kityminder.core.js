@@ -1,6 +1,6 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2019-09-20
+ * Kity Minder Core - v1.4.50 - 2019-09-24
  * https://github.com/CapLee/kityminder-core.git
  * GitHub: https://github.com/CapLee/kityminder-core.git 
  * Copyright (c) 2019 Baidu FEX; Licensed BSD-3-Clause
@@ -290,6 +290,30 @@ _p[5] = {
             }
             connection.setMarker(null);
             connection.setPathData(pathData);
+        });
+        connect.register("poly", function(t, e, n, i) {
+            var r = e.getLayoutVertexOut(), o = t.getLayoutVertexIn(), a = e.getLayoutVectorOut().normalize(), s = Math.round, c = Math.abs, l = [];
+            switch (l.push("M", s(r.x) - 10, s(r.y)), !0) {
+              case c(a.x) > c(a.y) && a.x < 0:
+                l.push("h", -e.getStyle("margin-left")), l.push("v", o.y - r.y), l.push("H", o.x), 
+                l.push("h", 10);
+                break;
+
+              case c(a.x) > c(a.y) && a.x >= 0:
+                l.push("h", e.getStyle("margin-right")), l.push("v", o.y - r.y), l.push("H", o.x), 
+                l.push("h", 10);
+                break;
+
+              case c(a.x) <= c(a.y) && a.y < 0:
+                l.push("v", -e.getStyle("margin-top")), l.push("h", o.x - r.x), l.push("V", o.y), 
+                l.push("h", 10);
+                break;
+
+              case c(a.x) <= c(a.y) && a.y >= 0:
+                l.push("v", e.getStyle("margin-bottom")), l.push("h", o.x - r.x), l.push("V", o.y), 
+                l.push("h", 10);
+            }
+            n.setMarker(null), n.setPathData(l);
         });
     }
 };
@@ -2199,7 +2223,8 @@ _p[21] = {
          * 获得节点的类型（root|main|sub）
          */
             getType: function(type) {
-                this.type = this.isRoot() || this.data.type === "Parts" ? [ "root", "main", "sub" ][Math.min(this.getLevel(), 2)] : "sub";
+                // ['root', 'main', 'sub'][Math.min(this.getLevel(), 2)]
+                this.type = this.isRoot() ? "root" : this.data.type === "Parts" ? "main" : "sub";
                 return this.type;
             },
             /**
@@ -3981,6 +4006,103 @@ _p[36] = {
                 getOrderHint: getOrderHint
             }));
         }
+        var r = kity, o = Layout;
+        [ "left", "right", "top", "bottom" ].forEach(function(t) {
+            var e = "left" == t || "right" == t ? "x" : "y", n = "left" == t || "top" == t ? -1 : 1, i = {
+                left: "right",
+                right: "left",
+                top: "bottom",
+                bottom: "top",
+                x: "y",
+                y: "x"
+            };
+            o.register(t, r.createClass({
+                base: o,
+                doLayout: function(o, a) {
+                    var s = o.getContentBox();
+                    if ("x" == e ? (o.setVertexOut(new r.Point(s[t], s.cy - 10)), o.setLayoutVectorOut(new r.Vector(n, 0))) : (o.setVertexOut(new r.Point(s.cx, s[t])), 
+                    o.setLayoutVectorOut(new r.Vector(0, n))), !a.length) return !1;
+                    a.forEach(function(o) {
+                        var a = o.getContentBox();
+                        o.setLayoutTransform(new r.Matrix()), "x" == e ? (o.setVertexIn(new r.Point(a[i[t]], a.cy)), 
+                        o.setLayoutVectorIn(new r.Vector(n, 0))) : (o.setVertexIn(new r.Point(a.cx, a[i[t]])), 
+                        o.setLayoutVectorIn(new r.Vector(0, n)));
+                    }), this.align(a, i[t]), this.stack(a, i[e]);
+                    var c = this.getBranchBox(a), l = 0, u = this;
+                    var h = window.sessionStorage.getItem("project_type");
+                    h && "dfmea" == h ? function t(e) {
+                        var n = e.filter(function(t) {
+                            return 1 !== t.data.nodeType;
+                        });
+                        if (n && n.length) {
+                            var i = u.getBranchBox(n);
+                            i.right > l && (l = i.right), n.forEach(function(e) {
+                                e.children && e.children.length && t(e.children);
+                            });
+                        }
+                    }(o.children) : function t(e) {
+                        var n = e.filter(function(t) {
+                            return 1 !== t.data.nodeType && 9 !== t.data.nodeType && 0 !== String(t.data.nodeType).indexOf("8");
+                        });
+                        if (n && n.length) {
+                            var i = u.getBranchBox(n);
+                            i.right > l && (l = i.right), n.forEach(function(e) {
+                                e.children && e.children.length && t(e.children);
+                            });
+                        }
+                    }(o.children);
+                    var f = 0, d = 0;
+                    "x" == e ? (f = s[t], f += n * o.getStyle("margin-" + t), f += n * a[0].getStyle("margin-" + i[t]), 
+                    d = s.bottom, d -= s.height / 2, d -= c.height / 2, d -= c.y) : (f = s.right, f -= s.width / 2, 
+                    f -= c.width / 2, f -= c.x, d = s[t], d += n * o.getStyle("margin-" + t), d += n * a[0].getStyle("margin-" + i[t])), 
+                    this.move(a, f + l + 20, d);
+                },
+                getOrderHint: function(t) {
+                    var n = [], i = t.getLayoutBox();
+                    return "x" == e ? (n.push({
+                        type: "up",
+                        node: t,
+                        area: new r.Box({
+                            x: i.x,
+                            y: i.top - t.getStyle("margin-top") - 5,
+                            width: i.width,
+                            height: t.getStyle("margin-top")
+                        }),
+                        path: [ "M", i.x, i.top - 5, "L", i.right, i.top - 5 ]
+                    }), n.push({
+                        type: "down",
+                        node: t,
+                        area: new r.Box({
+                            x: i.x,
+                            y: i.bottom + 5,
+                            width: i.width,
+                            height: t.getStyle("margin-bottom")
+                        }),
+                        path: [ "M", i.x, i.bottom + 5, "L", i.right, i.bottom + 5 ]
+                    })) : (n.push({
+                        type: "up",
+                        node: t,
+                        area: new r.Box({
+                            x: i.left - t.getStyle("margin-left") - 5,
+                            y: i.top,
+                            width: t.getStyle("margin-left"),
+                            height: i.height
+                        }),
+                        path: [ "M", i.left - 5, i.top, "L", i.left - 5, i.bottom ]
+                    }), n.push({
+                        type: "down",
+                        node: t,
+                        area: new r.Box({
+                            x: i.right + 5,
+                            y: i.top,
+                            width: t.getStyle("margin-right"),
+                            height: i.height
+                        }),
+                        path: [ "M", i.right + 5, i.top, "L", i.right + 5, i.bottom ]
+                    })), n;
+                }
+            }));
+        });
     }
 };
 
@@ -9167,55 +9289,56 @@ _p[77] = {
     value: function(require, exports, module) {
         var kity = _p.r(17);
         var theme = _p.r(32);
-        function hsl(h, s, l) {
-            return kity.Color.createHSL(h, s, l);
+        var r = kity, o = theme;
+        function a(t, e, n) {
+            return r.Color.createHSL(t, e, n);
         }
-        function generate(h, compat) {
+        function s(t, e) {
             return {
                 background: "#fbfbfb",
                 "root-color": "white",
-                "root-background": hsl(h, 37, 60),
-                "root-stroke": hsl(h, 37, 60),
+                "root-background": a(t, 37, 60),
+                "root-stroke": a(t, 37, 60),
                 "root-font-size": 16,
-                "root-padding": compat ? [ 6, 12 ] : [ 12, 24 ],
-                "root-margin": compat ? 10 : [ 30, 100 ],
+                "root-padding": e ? [ 6, 12 ] : [ 12, 24 ],
+                "root-margin": e ? 10 : [ 30, 100 ],
                 "root-radius": 5,
                 "root-space": 10,
                 "main-color": "black",
-                "main-background": hsl(h, 33, 95),
-                "main-stroke": hsl(h, 37, 60),
+                "main-background": a(t, 33, 95),
+                "main-stroke": a(t, 37, 60),
                 "main-stroke-width": 1,
                 "main-font-size": 14,
                 "main-padding": [ 6, 20 ],
-                "main-margin": compat ? 8 : 20,
+                "main-margin": e ? 8 : 20,
                 "main-radius": 3,
                 "main-space": 5,
                 "sub-color": "black",
                 "sub-background": "transparent",
                 "sub-stroke": "none",
                 "sub-font-size": 12,
-                "sub-padding": compat ? [ 3, 5 ] : [ 5, 10 ],
-                "sub-margin": compat ? [ 4, 8 ] : [ 15, 20 ],
+                "sub-padding": e ? [ 3, 5 ] : [ 5, 10 ],
+                "sub-margin": e ? [ 4, 8 ] : [ 15, 20 ],
                 "sub-radius": 5,
                 "sub-space": 5,
-                "connect-color": hsl(h, 37, 60),
+                "connect-color": a(t, 37, 60),
                 "connect-width": 1,
                 "connect-radius": 5,
-                "selected-stroke": hsl(h, 26, 30),
+                "selected-stroke": a(t, 26, 30),
                 "selected-stroke-width": "3",
-                "blur-selected-stroke": hsl(h, 10, 60),
-                "marquee-background": hsl(h, 100, 80).set("a", .1),
-                "marquee-stroke": hsl(h, 37, 60),
-                "drop-hint-color": hsl(h, 26, 35),
+                "blur-selected-stroke": a(t, 10, 60),
+                "marquee-background": a(t, 100, 80).set("a", .1),
+                "marquee-stroke": a(t, 37, 60),
+                "drop-hint-color": a(t, 26, 35),
                 "drop-hint-width": 5,
-                "order-hint-area-color": hsl(h, 100, 30).set("a", .5),
-                "order-hint-path-color": hsl(h, 100, 25),
+                "order-hint-area-color": a(t, 100, 30).set("a", .5),
+                "order-hint-path-color": a(t, 100, 25),
                 "order-hint-path-width": 1,
-                "text-selection-color": hsl(h, 100, 20),
+                "text-selection-color": a(t, 100, 20),
                 "line-height": 1.5
             };
         }
-        var plans = {
+        var c, l = {
             red: 0,
             soil: 25,
             green: 122,
@@ -9223,11 +9346,7 @@ _p[77] = {
             purple: 246,
             pink: 334
         };
-        var name;
-        for (name in plans) {
-            theme.register("fresh-" + name, generate(plans[name]));
-            theme.register("fresh-" + name + "-compat", generate(plans[name], true));
-        }
+        for (c in l) o.register("fresh-" + c, s(l[c])), o.register("fresh-" + c + "-compat", s(l[c], !0));
     }
 };
 

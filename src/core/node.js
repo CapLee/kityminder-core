@@ -110,7 +110,8 @@ define(function(require, exports, module) {
          * 获得节点的类型（root|main|sub）
          */
         getType: function(type) {
-	        this.type = (this.isRoot() || this.data.type === 'Parts') ? ['root', 'main', 'sub'][Math.min(this.getLevel(), 2)] : 'sub';
+	        // ['root', 'main', 'sub'][Math.min(this.getLevel(), 2)]
+	        this.type = this.isRoot() ? 'root' : this.data.type === 'Parts' ? 'main' : 'sub';
 	        return this.type;
         },
 

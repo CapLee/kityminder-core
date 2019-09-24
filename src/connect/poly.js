@@ -60,4 +60,40 @@ define(function(require, exports, module) {
         connection.setMarker(null);
         connection.setPathData(pathData);
     });
+		connect.register("poly", function(t, e, n, i) {
+		var r = e.getLayoutVertexOut()
+			, o = t.getLayoutVertexIn()
+			, a = e.getLayoutVectorOut().normalize()
+			, s = Math.round
+			, c = Math.abs
+			, l = [];
+		switch (l.push("M", s(r.x) - 10, s(r.y)),
+			!0) {
+			case c(a.x) > c(a.y) && a.x < 0:
+				l.push("h", -e.getStyle("margin-left")),
+					l.push("v", o.y - r.y),
+					l.push("H", o.x),
+					l.push("h", 10);
+				break;
+			case c(a.x) > c(a.y) && a.x >= 0:
+				l.push("h", e.getStyle("margin-right")),
+					l.push("v", o.y - r.y),
+					l.push("H", o.x),
+					l.push("h", 10);
+				break;
+			case c(a.x) <= c(a.y) && a.y < 0:
+				l.push("v", -e.getStyle("margin-top")),
+					l.push("h", o.x - r.x),
+					l.push("V", o.y),
+					l.push("h", 10);
+				break;
+			case c(a.x) <= c(a.y) && a.y >= 0:
+				l.push("v", e.getStyle("margin-bottom")),
+					l.push("h", o.x - r.x),
+					l.push("V", o.y),
+					l.push("h", 10)
+		}
+		n.setMarker(null),
+			n.setPathData(l)
+	})
 });
