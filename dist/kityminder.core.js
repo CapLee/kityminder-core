@@ -1,6 +1,6 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2019-09-24
+ * Kity Minder Core - v1.4.50 - 2019-10-15
  * https://github.com/CapLee/kityminder-core.git
  * GitHub: https://github.com/CapLee/kityminder-core.git 
  * Copyright (c) 2019 Baidu FEX; Licensed BSD-3-Clause
@@ -4329,7 +4329,7 @@ _p[40] = {
                 var right = [];
                 var down = [];
                 children.forEach(function(node) {
-                    node.data.nodeType === 1 || 0 === String(node.data.nodeType).indexOf("8") || 9 === node.data.nodeType ? right.push(node) : node.attached && down.push(node);
+                    node.data.nodeType === 1 || 9 === node.data.nodeType ? right.push(node) : node.attached && down.push(node);
                 });
                 var downLayout = Minder.getLayoutInstance("filetree-down");
                 var rightLayout = Minder.getLayoutInstance("right");
