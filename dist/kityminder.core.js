@@ -1,6 +1,6 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2019-10-15
+ * Kity Minder Core - v1.4.50 - 2019-10-16
  * https://github.com/CapLee/kityminder-core.git
  * GitHub: https://github.com/CapLee/kityminder-core.git 
  * Copyright (c) 2019 Baidu FEX; Licensed BSD-3-Clause
@@ -4336,7 +4336,7 @@ _p[40] = {
                 downLayout.doLayout(node, down);
                 rightLayout.doLayout(node, right);
                 var box = node.getContentBox();
-                1 === node.data.nodeType || 9 === node.data.nodeType || 0 === String(node.data.nodeType).indexOf("8") ? "root" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 10)) : "main" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 8)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)), 
+                1 === node.data.nodeType || 9 === node.data.nodeType ? "root" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 10)) : "main" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 8)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)), 
                 node.setLayoutVectorOut(new kity.Vector(0, 0));
             },
             getOrderHint: function(node) {
