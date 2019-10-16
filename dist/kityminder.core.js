@@ -2,7 +2,7 @@
  * ====================================================
  * Kity Minder Core - v1.4.50 - 2019-10-16
  * https://github.com/CapLee/kityminder-core.git
- * GitHub: https://github.com/CapLee/kityminder-core.git 
+ * GitHub: https://github.com/CapLee/kityminder-core.git
  * Copyright (c) 2019 Baidu FEX; Licensed BSD-3-Clause
  * ====================================================
  */
@@ -295,22 +295,22 @@ _p[5] = {
             var r = e.getLayoutVertexOut(), o = t.getLayoutVertexIn(), a = e.getLayoutVectorOut().normalize(), s = Math.round, c = Math.abs, l = [];
             switch (l.push("M", s(r.x) - 10, s(r.y)), !0) {
               case c(a.x) > c(a.y) && a.x < 0:
-                l.push("h", -e.getStyle("margin-left")), l.push("v", o.y - r.y), l.push("H", o.x), 
+                l.push("h", -e.getStyle("margin-left")), l.push("v", o.y - r.y), l.push("H", o.x),
                 l.push("h", 10);
                 break;
 
               case c(a.x) > c(a.y) && a.x >= 0:
-                l.push("h", e.getStyle("margin-right")), l.push("v", o.y - r.y), l.push("H", o.x), 
+                l.push("h", e.getStyle("margin-right")), l.push("v", o.y - r.y), l.push("H", o.x),
                 l.push("h", 10);
                 break;
 
               case c(a.x) <= c(a.y) && a.y < 0:
-                l.push("v", -e.getStyle("margin-top")), l.push("h", o.x - r.x), l.push("V", o.y), 
+                l.push("v", -e.getStyle("margin-top")), l.push("h", o.x - r.x), l.push("V", o.y),
                 l.push("h", 10);
                 break;
 
               case c(a.x) <= c(a.y) && a.y >= 0:
-                l.push("v", e.getStyle("margin-bottom")), l.push("h", o.x - r.x), l.push("V", o.y), 
+                l.push("v", e.getStyle("margin-bottom")), l.push("h", o.x - r.x), l.push("V", o.y),
                 l.push("h", 10);
             }
             n.setMarker(null), n.setPathData(l);
@@ -836,7 +836,7 @@ _p[12] = {
                 return JSON.parse(JSON.stringify(json));
             },
             /**
-         * function Text2Children(MinderNode, String) 
+         * function Text2Children(MinderNode, String)
          * @param {MinderNode} node 要导入数据的节点
          * @param {String} text 导入的text数据
          * @Desc: 用于批量插入子节点，并不会修改被插入的父节点
@@ -849,7 +849,7 @@ _p[12] = {
          *              wereww
          *          12314
          *      1231412
-         *      13123    
+         *      13123
          */
             Text2Children: function(node, text) {
                 if (!(node instanceof kityminder.Node)) {
@@ -4020,12 +4020,12 @@ _p[36] = {
                 base: o,
                 doLayout: function(o, a) {
                     var s = o.getContentBox();
-                    if ("x" == e ? (o.setVertexOut(new r.Point(s[t], s.cy - 10)), o.setLayoutVectorOut(new r.Vector(n, 0))) : (o.setVertexOut(new r.Point(s.cx, s[t])), 
+                    if ("x" == e ? (o.setVertexOut(new r.Point(s[t], s.cy - 10)), o.setLayoutVectorOut(new r.Vector(n, 0))) : (o.setVertexOut(new r.Point(s.cx, s[t])),
                     o.setLayoutVectorOut(new r.Vector(0, n))), !a.length) return !1;
                     a.forEach(function(o) {
                         var a = o.getContentBox();
-                        o.setLayoutTransform(new r.Matrix()), "x" == e ? (o.setVertexIn(new r.Point(a[i[t]], a.cy)), 
-                        o.setLayoutVectorIn(new r.Vector(n, 0))) : (o.setVertexIn(new r.Point(a.cx, a[i[t]])), 
+                        o.setLayoutTransform(new r.Matrix()), "x" == e ? (o.setVertexIn(new r.Point(a[i[t]], a.cy)),
+                        o.setLayoutVectorIn(new r.Vector(n, 0))) : (o.setVertexIn(new r.Point(a.cx, a[i[t]])),
                         o.setLayoutVectorIn(new r.Vector(0, n)));
                     }), this.align(a, i[t]), this.stack(a, i[e]);
                     var c = this.getBranchBox(a), l = 0, u = this;
@@ -4042,7 +4042,7 @@ _p[36] = {
                         }
                     }(o.children) : function t(e) {
                         var n = e.filter(function(t) {
-                            return 1 !== t.data.nodeType && 9 !== t.data.nodeType && 0 !== String(t.data.nodeType).indexOf("8");
+                            return 1 !== t.data.nodeType && 9 !== t.data.nodeType
                         });
                         if (n && n.length) {
                             var i = u.getBranchBox(n);
@@ -4052,9 +4052,9 @@ _p[36] = {
                         }
                     }(o.children);
                     var f = 0, d = 0;
-                    "x" == e ? (f = s[t], f += n * o.getStyle("margin-" + t), f += n * a[0].getStyle("margin-" + i[t]), 
-                    d = s.bottom, d -= s.height / 2, d -= c.height / 2, d -= c.y) : (f = s.right, f -= s.width / 2, 
-                    f -= c.width / 2, f -= c.x, d = s[t], d += n * o.getStyle("margin-" + t), d += n * a[0].getStyle("margin-" + i[t])), 
+                    "x" == e ? (f = s[t], f += n * o.getStyle("margin-" + t), f += n * a[0].getStyle("margin-" + i[t]),
+                    d = s.bottom, d -= s.height / 2, d -= c.height / 2, d -= c.y) : (f = s.right, f -= s.width / 2,
+                    f -= c.width / 2, f -= c.x, d = s[t], d += n * o.getStyle("margin-" + t), d += n * a[0].getStyle("margin-" + i[t])),
                     this.move(a, f + l + 20, d);
                 },
                 getOrderHint: function(t) {
@@ -4336,7 +4336,7 @@ _p[40] = {
                 downLayout.doLayout(node, down);
                 rightLayout.doLayout(node, right);
                 var box = node.getContentBox();
-                1 === node.data.nodeType || 9 === node.data.nodeType ? "root" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 10)) : "main" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 8)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)), 
+                1 === node.data.nodeType || 9 === node.data.nodeType ? "root" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 10)) : "main" === node.type ? node.setVertexOut(new kity.Point(box.left + 28, box.cy - 8)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)) : node.setVertexOut(new kity.Point(box.left + 28, box.bottom)),
                 node.setLayoutVectorOut(new kity.Vector(0, 0));
             },
             getOrderHint: function(node) {
