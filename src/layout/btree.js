@@ -188,7 +188,7 @@ define(function(require, exports, module) {
 					}
 				}(o.children) : function t(e) {
 					var n = e.filter(function(t) {
-						return 1 !== t.data.nodeType && 9 !== t.data.nodeType && 0 !== String(t.data.nodeType).indexOf("8")
+						return 1 !== t.data.nodeType && 9 !== t.data.nodeType
 					});
 					if (n && n.length) {
 						var i = u.getBranchBox(n);
